@@ -352,4 +352,4 @@ async def on_ready():
     await tree.sync()
     print('Ready!')
 
-client.run('MTEzMDk4MzU1MjIzMDYyMTI0NQ.GdGNmQ.77NBNpBUEvJ_QehEUJ260587pXv3k_Eyhf_478')
+client.run('TOKEN')
