@@ -243,7 +243,7 @@ async def on_message(message):
         save()
 
 @tree.command(name='victors', description="View a demon's victors")
-async def victors_command(interaction: discord.Interaction, demon: typing.Literal[*dlv_list['main']]):
+async def victors_command(interaction: discord.Interaction, demon: str):
     awesome_dict_i_literally_came = {i: (dlv_completion_dates[get_user_id(i)][demon] if dlv_completion_dates[get_user_id(i)][demon] else '100000000000.1.1') for i in set(dlv_list['victors'][demon])}
     sorted_dates = sorted(list(awesome_dict_i_literally_came.items()), key=lambda x: tuple(map(int, x[1].split('.'))))
     formatted_victors = ''
@@ -263,7 +263,7 @@ async def victors_command(interaction: discord.Interaction, demon: typing.Litera
 months = ['1 - January', '2 - February', '3 - March', '4 - April', '5 - May', '6 - June', '7 - July', '8 - August', '9 - September', '10 - October', '11 - November', '12 - December']
 
 @tree.command(name='addcompletion', description='Add a completion to a user. (Can Only Be Used By Dr. Slug)')
-async def add_completion_command(interaction: discord.Interaction, user: discord.Member, demon: typing.Literal[*dlv_list['main']], year: int, month: typing.Literal[*months], day: int):
+async def add_completion_command(interaction: discord.Interaction, user: discord.Member, demon: str, year: int, month: typing.Literal[*months], day: int):
     if str(interaction.user.id) in ['543885678258290699', '991443322516279466']:
         dlv_thingy['main'] = True
         if day > 31:
@@ -297,7 +297,7 @@ async def add_completion_command(interaction: discord.Interaction, user: discord
         await interaction.response.send_message(embed=discord.Embed(title='You Are Not Dr. Slug!', colour=discord.Colour.red()), ephemeral=True)
 
 @tree.command(name='removecompletion', description='Remove a completion from a user. (Can Only Be Used By Dr. Slug)')
-async def remove_completion_command(interaction: discord.Interaction, user: discord.Member, demon: typing.Literal[*dlv_list['main']]):
+async def remove_completion_command(interaction: discord.Interaction, user: discord.Member, demon: str):
     dlv_thingy['main2'] = True
     if str(interaction.user.id) in ['543885678258290699', '991443322516279466']:
         print(dlv_users)
@@ -352,4 +352,4 @@ async def on_ready():
     await tree.sync()
     print('Ready!')
 
-client.run('TOKEN')
+client.run('MTEzMDk4MzU1MjIzMDYyMTI0NQ.GdGNmQ.77NBNpBUEvJ_QehEUJ260587pXv3k_Eyhf_478')
