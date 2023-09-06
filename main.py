@@ -244,6 +244,7 @@ async def on_message(message):
 
 @tree.command(name='victors', description="View a demon's victors")
 async def victors_command(interaction: discord.Interaction, demon: str):
+    demon = demon.title()
     awesome_dict_i_literally_came = {i: (dlv_completion_dates[get_user_id(i)][demon] if dlv_completion_dates[get_user_id(i)][demon] else '100000000000.1.1') for i in set(dlv_list['victors'][demon])}
     sorted_dates = sorted(list(awesome_dict_i_literally_came.items()), key=lambda x: tuple(map(int, x[1].split('.'))))
     formatted_victors = ''
