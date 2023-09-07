@@ -47,6 +47,9 @@ with open(r'C:\Users\Dani1\DLVCOMPLETIONDATES.json', 'r') as f:
 with open(r'C:\Users\Dani1\DLVTHINGY.json', 'r') as f:
     dlv_thingy = json.load(f)
 
+with open(r'C:\Users\Dani1\DLVPOINTS.json', 'r') as f:
+    dlv_points = json.load(f)
+
 def save():
     json.dump(saves, open(r'C:\Users\Dani1\DLVBOTXPSAVES.json', 'w'))
     json.dump(dlv_list, open(r'C:\Users\Dani1\DLVLIST.json', 'w'))
@@ -240,6 +243,11 @@ async def on_message(message):
             dlv_users[str(i.id)] = {'completions': user_completions, 'username': str(i.name), 'avatar': str(client.get_user(int(i.id)).avatar), 'user_id': str(i.id)}
             if not str(i.id) in list(dlv_completion_dates.keys()):
                 dlv_completion_dates[str(i.id)] = {i: None for i in user_completions}
+        for i in saves:
+            try:
+                saves[i]['xp'] = sum([dlv_points[e.lower()] for e in dlv_users[i]['completions']])
+            except KeyError:
+                pass
         save()
 
 @tree.command(name='victors', description="View a demon's victors")
@@ -266,6 +274,7 @@ months = ['1 - January', '2 - February', '3 - March', '4 - April', '5 - May', '6
 @tree.command(name='addcompletion', description='Add a completion to a user. (Can Only Be Used By Dr. Slug)')
 async def add_completion_command(interaction: discord.Interaction, user: discord.Member, demon: str, year: int, month: typing.Literal[*months], day: int):
     if str(interaction.user.id) in ['543885678258290699', '991443322516279466']:
+        demon = demon.title()
         dlv_thingy['main'] = True
         if day > 31:
             await interaction.response.send_message(embed=discord.Embed(title='Day Cannot Be Higher Than 31.', colour=discord.Colour.red()), ephemeral=True)
@@ -299,6 +308,7 @@ async def add_completion_command(interaction: discord.Interaction, user: discord
 
 @tree.command(name='removecompletion', description='Remove a completion from a user. (Can Only Be Used By Dr. Slug)')
 async def remove_completion_command(interaction: discord.Interaction, user: discord.Member, demon: str):
+    demon = demon.title()
     dlv_thingy['main2'] = True
     if str(interaction.user.id) in ['543885678258290699', '991443322516279466']:
         print(dlv_users)
